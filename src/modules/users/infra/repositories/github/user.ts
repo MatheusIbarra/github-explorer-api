@@ -3,13 +3,16 @@ import { inject, singleton } from 'tsyringe';
 import {
   GetUsersRepo,
   GetUserDetailsRepo,
+  GetUserRepositoriesRepo,
 } from '@/modules/users/contracts/repositories';
 import { AxiosHttpClient } from '@/shared/infra/gateways';
 import { HttpGetClient } from '@/shared/contracts/gateways';
 import { env } from '@/shared/helpers';
 
 @singleton()
-export class PgUserRepository implements GetUsersRepo, GetUserDetailsRepo {
+export class PgUserRepository
+  implements GetUsersRepo, GetUserDetailsRepo, GetUserRepositoriesRepo
+{
   constructor(
     @inject(AxiosHttpClient)
     private readonly httpClient: HttpGetClient,
@@ -31,7 +34,13 @@ export class PgUserRepository implements GetUsersRepo, GetUserDetailsRepo {
       url: `${env.app.github_url}/users/${input.username}`,
     });
 
-    console.log(data);
+    return data;
+  }
+
+  async getUserRepositories(input: GetUserDetailsRepo.Input): Promise<any> {
+    const data = await this.httpClient.get({
+      url: `${env.app.github_url}/users/${input.username}/repos`,
+    });
 
     return data;
   }

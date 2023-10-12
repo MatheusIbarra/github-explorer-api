@@ -2,6 +2,7 @@ import { inject, singleton } from 'tsyringe';
 
 import { GetUsersRepo } from '@/modules/users/contracts/repositories';
 import { PgUserRepository } from '../infra/repositories';
+import { User } from '../contracts/dtos';
 
 export namespace GetUsers {
   export type Params = {
@@ -9,7 +10,7 @@ export namespace GetUsers {
   };
   export type Result = {
     results: {
-      users: any[];
+      users: User[];
       pagination: {
         nextPage: string;
         perPage: string;

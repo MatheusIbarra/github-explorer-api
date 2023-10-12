@@ -2,13 +2,14 @@ import { inject, singleton } from 'tsyringe';
 
 import { GetUserDetailsRepo } from '@/modules/users/contracts/repositories';
 import { PgUserRepository } from '../infra/repositories';
+import { User } from '../contracts/dtos';
 
 export namespace GetUserDetails {
   export type Params = {
     username: string;
   };
   export type Result = {
-    user: any;
+    user: User;
   };
 }
 
