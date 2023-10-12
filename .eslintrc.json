@@ -1,0 +1,85 @@
+{
+  "env": {
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "airbnb-base",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "prettier",
+    "unicorn"
+  ],
+  "rules": {
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+    "unicorn/filename-case": [
+      "error",
+      {
+        "case": "camelCase"
+      }
+    ],
+    "no-restricted-imports": ["error", {
+      "patterns": ["..*"]
+    }],
+    "lines-between-class-members": "off",
+    "max-classes-per-file": "off",
+    "@typescript-eslint/no-namespace": "off",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "error",
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": [
+      "error"
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never"
+      }
+    ],
+    "prettier/prettier": "error",
+    "camelcase": "off",
+    "import/prefer-default-export": "off",
+    "no-useless-constructor": "off",
+    "class-methods-use-this": "off",
+    "import/order": [
+      "error",
+      {
+        "groups": [ "builtin", "external", "internal"],
+        "newlines-between": "always",
+        "pathGroups": [
+          {
+            "pattern": "@/",
+            "group": "internal",
+            "position": "before"
+          }
+        ],
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["index.ts"],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    },
+  ],
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  }
+}
