@@ -10,5 +10,6 @@ export const env = {
   node: getEnvVar('NODE_ENV') as `${NodeEnv}`,
   app: {
     port: getEnvVar('APP_PORT') || 3333,
+    github_url: getEnvVar('GITHUB_URL'),
   },
 };

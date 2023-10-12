@@ -16,7 +16,7 @@ async function startHttpServer() {
   try {
     const app = await getExpressApp();
     app.listen(env.app.port, () => {
-      console.log(`Server running at http://localhost:${env.app.port}`);
+      console.log(`Server running at http://localhost:${env.app.port}/api`);
     });
   } catch (err) {
     console.error(err);

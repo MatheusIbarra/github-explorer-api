@@ -24,10 +24,7 @@ const loadAppRoutes = async () => {
 };
 
 export const setupRoutes = async (app: Express): Promise<void> => {
-  const tmpFolder = path.resolve(__dirname, '..', '..', '..', 'tmp');
-  app.use('/files', express.static(tmpFolder));
-
-  app.use('/status', (req, res) =>
+  app.use('/api/status', (req, res) =>
     res.status(200).json({
       message: `Github Explorer lives !`,
     }),
@@ -40,5 +37,6 @@ export const setupRoutes = async (app: Express): Promise<void> => {
   for await (const route of routes) {
     route.default(router);
   }
-  app.use(router);
+
+  app.use('/api', router);
 };
