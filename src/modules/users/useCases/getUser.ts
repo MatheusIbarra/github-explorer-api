@@ -1,23 +1,42 @@
 import { inject, singleton } from 'tsyringe';
 
-import { GetUserRepo } from '@/modules/users/contracts/repositories';
+import { GetUsersRepo } from '@/modules/users/contracts/repositories';
+import { PgUserRepository } from '../infra/repositories';
+import { User } from '../contracts/dtos';
 
-export namespace GetUser {
+export namespace GetUsers {
   export type Params = {
-    username: string;
+    since: string;
   };
   export type Result = {
-    user: any;
+    results: {
+      users: User[];
+      pagination: {
+        nextPage: string;
+        perPage: string;
+      };
+    };
   };
 }
 
 @singleton()
 export class GetUserUseCase {
-  constructor(private userRepo: GetUserRepo) {}
+  constructor(
+    @inject(PgUserRepository)
+    private userRepo: GetUsersRepo,
+  ) {}
 
-  async perform({ username }: GetUser.Params): Promise<GetUser.Result> {
-    const user = await this.userRepo.getUser({ username });
+  async perform({ since }: GetUsers.Params): Promise<GetUsers.Result> {
+    const users = await this.userRepo.getUser({ since });
 
-    return user;
+    const results = {
+      results: users,
+      pagination: {
+        nextPage: users[users.length - 1]?.id,
+        perPage: 15,
+      },
+    } as GetUsers.Result;
+
+    return results;
   }
 }

@@ -1,4 +1,5 @@
 import { Failure } from '@/shared/protocols';
+import { ZodError } from 'zod';
 
 export enum ApplicationErrors {
   InternalServerError = 'InternalServerError',
@@ -17,6 +18,16 @@ export const internalServerError = (
     type: ApplicationErrors.InternalServerError,
     reason,
     friendly_message: 'Internal server error',
+  };
+};
+
+export const validationError = (
+  error: ZodError,
+): Failure<ApplicationErrors.ValidationError> => {
+  return {
+    type: ApplicationErrors.ValidationError,
+    reason: error.issues,
+    friendly_message: 'Validation Error',
   };
 };
 

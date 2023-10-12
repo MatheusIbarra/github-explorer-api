@@ -20,11 +20,13 @@
 Clone the project
 
 ```bash
+gh repo clone MatheusIbarra/github-explorer-api
 ```
 
 Go to the project directory
 
 ```bash
+cd github-exlorer-api
 ```
 
 Install dependencies
