@@ -19,7 +19,7 @@ export class GetUserController extends Controller {
     const getUsersSchema = z.object({
       since: z.string(),
       q: z.string().optional(),
-      perPage: z.string(),
+      perPage: z.string().optional(),
     });
 
     const { since, q, perPage } = getUsersSchema.parse(request.query);
@@ -27,7 +27,7 @@ export class GetUserController extends Controller {
     const users = await this.getUsers.perform({
       since,
       q,
-      perPage,
+      perPage: perPage ? perPage : '15',
     });
 
     return ok(users);
