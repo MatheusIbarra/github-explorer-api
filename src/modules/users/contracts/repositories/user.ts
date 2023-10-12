@@ -21,3 +21,16 @@ export interface GetUserDetailsRepo {
     input: GetUserDetailsRepo.Input,
   ): Promise<GetUserDetailsRepo.Output>;
 }
+
+export namespace GetUserRepositoriesRepo {
+  export type Input = {
+    username: string;
+  };
+  export type Output = any;
+}
+
+export interface GetUserRepositoriesRepo {
+  getUserRepositories(
+    input: GetUserRepositoriesRepo.Input,
+  ): Promise<GetUserRepositoriesRepo.Output>;
+}
