@@ -18,15 +18,28 @@ export class PgUserRepository
     private readonly httpClient: HttpGetClient,
   ) {}
 
-  async getUser(input: GetUsersRepo.Input): Promise<any> {
-    const data = await this.httpClient.get({
-      url: `${env.app.github_url}/users`,
-      params: {
-        since: input.since,
-      },
+  async getUser({ since, perPage, q }: GetUsersRepo.Input): Promise<any> {
+    let queryString = q ? q : 'type%3Auser';
+    let data;
+    if (!q) {
+      data = await this.httpClient.get({
+        url: `${env.app.github_url}/users`,
+        params: {
+          since,
+          per_page: perPage,
+        },
+      });
+    }
+
+    const { items, total_count } = await this.httpClient.get({
+      url: `${env.app.github_url}/search/users?q=${queryString}`,
     });
 
-    return data;
+    if (q) {
+      data = items;
+    }
+
+    return { total_count, data };
   }
 
   async getUserDetails(input: GetUserDetailsRepo.Input): Promise<any> {

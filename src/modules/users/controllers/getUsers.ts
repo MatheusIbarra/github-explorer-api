@@ -18,12 +18,16 @@ export class GetUserController extends Controller {
   async perform(request: HttpRequest): Promise<HttpResponse> {
     const getUsersSchema = z.object({
       since: z.string(),
+      q: z.string().optional(),
+      perPage: z.string(),
     });
 
-    const { since } = getUsersSchema.parse(request.query);
+    const { since, q, perPage } = getUsersSchema.parse(request.query);
 
     const users = await this.getUsers.perform({
       since,
+      q,
+      perPage,
     });
 
     return ok(users);
