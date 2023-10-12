@@ -7,6 +7,8 @@ import { User } from '../contracts/dtos';
 export namespace GetUsers {
   export type Params = {
     since: string;
+    perPage: string;
+    q?: string;
   };
   export type Result = {
     results: {
@@ -14,6 +16,7 @@ export namespace GetUsers {
       pagination: {
         nextPage: string;
         perPage: string;
+        totalCount: string;
       };
     };
   };
@@ -26,14 +29,23 @@ export class GetUserUseCase {
     private userRepo: GetUsersRepo,
   ) {}
 
-  async perform({ since }: GetUsers.Params): Promise<GetUsers.Result> {
-    const users = await this.userRepo.getUser({ since });
+  async perform({
+    since,
+    q,
+    perPage,
+  }: GetUsers.Params): Promise<GetUsers.Result> {
+    const { total_count, data } = await this.userRepo.getUser({
+      since,
+      q,
+      perPage,
+    });
 
     const results = {
-      results: users,
+      results: data,
       pagination: {
-        nextPage: users[users.length - 1]?.id,
-        perPage: 15,
+        nextPage: data[data.length - 1]?.id,
+        perPage,
+        totalCount: total_count,
       },
     } as GetUsers.Result;
 

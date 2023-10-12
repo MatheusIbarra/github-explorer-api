@@ -1,6 +1,8 @@
 export namespace GetUsersRepo {
   export type Input = {
     since: string;
+    perPage: string;
+    q?: string;
   };
   export type Output = any;
 }
